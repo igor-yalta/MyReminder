@@ -11,18 +11,19 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
 import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.Utils;
 import ua.blacksea.myreminder.model.ModelTask;
-
-import static android.R.attr.editable;
 
 /**
  * Created by Igor on 09.09.2016.
@@ -61,12 +62,30 @@ public class AddTaskDialogFragment extends DialogFragment {
         final EditText edDate = tDate.getEditText();
         edDate.setHint(getResources().getString(R.string.task_date));
 
-        TextInputLayout tTime = (TextInputLayout) container.findViewById(R.id.dTaskTime);
+        final TextInputLayout tTime = (TextInputLayout) container.findViewById(R.id.dTaskTime);
         final EditText edTime = tTime.getEditText();
         edTime.setHint(getResources().getString(R.string.task_time));
 
+        Spinner sPriority = (Spinner) container.findViewById(R.id.spDialogTaskPriority);
+
         builder.setView(container);
+
         final ModelTask modelTask = new ModelTask();
+
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ModelTask.PRIORITY_LEVELS);
+        sPriority.setAdapter(priorityAdapter);
+        sPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                modelTask.setPriority(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 1);
 

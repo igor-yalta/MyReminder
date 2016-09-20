@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.Item;
 
@@ -49,11 +50,13 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected class TaskViewHolder extends RecyclerView.ViewHolder{
         protected TextView title;
         protected TextView date;
+        protected CircleImageView priority;
 
-        public TaskViewHolder(View itemview, TextView title, TextView date){
+        public TaskViewHolder(View itemview, TextView title, TextView date, CircleImageView priority){
             super(itemview);
             this.title = title;
             this.date = date;
+            this.priority = priority;
         }
     }
 
