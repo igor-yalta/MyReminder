@@ -18,6 +18,7 @@ public class DBQueryManager {
     DBQueryManager(SQLiteDatabase db) {
         this.db = db;
     }
+
     public List<ModelTask> getListTasks(String selection, String[] selectionItem, String orderBy){
         List<ModelTask> tasks = new ArrayList<>();
         Cursor c = db.query(DBHelper.TASKS_TABLE, null, selection, selectionItem, null, null, orderBy);
@@ -29,8 +30,8 @@ public class DBQueryManager {
                 int status = c.getInt(c.getColumnIndex(DBHelper.TASK_STATUS_COLUMN));
                 long timeStamp = c.getLong(c.getColumnIndex(DBHelper.TASK_TIME_STAMP_COLUMN));
 
-                ModelTask task = new ModelTask(title, date, priority, status,timeStamp);
-                tasks.add(task);
+                ModelTask modelTask = new ModelTask(title, date, priority, status,timeStamp);
+                tasks.add(modelTask);
             }while (c.moveToNext());
         }
         return tasks;

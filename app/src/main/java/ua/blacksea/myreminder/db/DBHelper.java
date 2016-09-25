@@ -28,8 +28,14 @@ public class DBHelper extends SQLiteOpenHelper {
             + TASK_PRIORITY_COLUMN + " INTEGER, " + TASK_STATUS_COLUMN
             + " INTEGER, " + TASK_TIME_STAMP_COLUMN + " LONG)";
 
+    public static final String SELECTION_STATUS = DBHelper.TASK_STATUS_COLUMN + " - ?";
+    public DBQueryManager queryManager;
+    public DBUpdateManager updateManager;
+
     public DBHelper(Context context, String name) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        queryManager = new DBQueryManager(getReadableDatabase());
+        updateManager = new DBUpdateManager(getWritableDatabase());
     }
 
     @Override
@@ -52,5 +58,13 @@ public class DBHelper extends SQLiteOpenHelper {
         newValues.put(TASK_TIME_STAMP_COLUMN, task.getTimeStamp());
 
         getWritableDatabase().insert(TASKS_TABLE, null, newValues);
+    }
+
+    public DBQueryManager query(){
+        return queryManager;
+    }
+
+    public DBUpdateManager update(){
+        return updateManager;
     }
 }

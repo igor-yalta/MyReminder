@@ -34,6 +34,8 @@ public class AddTaskDialogFragment extends DialogFragment {
     public interface AddTaskListener {
         void onTaskAdded(ModelTask newTask);
         void onTaskAddCancel();
+        void onTaskDone(ModelTask task);
+        void onTaskRestore(ModelTask task);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ua.blacksea.myreminder.adapter.TabAdapter;
+import ua.blacksea.myreminder.db.DBHelper;
 import ua.blacksea.myreminder.dialog.AddTaskDialogFragment;
 import ua.blacksea.myreminder.fragment.CurrentTaskFragment;
 import ua.blacksea.myreminder.fragment.DoneTaskFragment;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
 
     CurrentTaskFragment currentTaskFragment;
     DoneTaskFragment doneTaskFragment;
+    public DBHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dbHelper = new DBHelper(getApplicationContext(), );
 
         PreferenceHelper.getInstance().init(getApplicationContext());
         preferenceHelper = PreferenceHelper.getInstance();
@@ -129,11 +133,21 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
 
     @Override
     public void onTaskAdded(ModelTask newTask) {
-        currentTaskFragment.addTask(newTask);
+        currentTaskFragment.addTask(newTask, true);
     }
 
     @Override
     public void onTaskAddCancel() {
         Toast.makeText(this, "Task adding cancel.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTaskDone(ModelTask task) {
+        doneTaskFragment.addTask(task, false);
+    }
+
+    @Override
+    public void onTaskRestore(ModelTask task) {
+        currentTaskFragment.addTask(task, false);
     }
 }
