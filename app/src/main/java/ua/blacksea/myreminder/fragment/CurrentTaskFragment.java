@@ -36,7 +36,7 @@ public class CurrentTaskFragment extends TaskFragment {
         List<ModelTask> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.query().getTasks(DBHelper.SELECTION_STATUS + " OR "
                 + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(ModelTask.STATUS_CURRENT,
-                Integer.toString(ModelTask.STATUS_OVERDUE)}, DBHelper.TASK_DATE_COLUMN));
+                Integer.toString(ModelTask.STATUS_OVERDUE)), DBHelper.TASK_DATE_COLUMN));
         for(int i= 0; i < tasks.size(); i++){
             addTask(tasks.get(i), false);
         }
@@ -58,8 +58,8 @@ public class CurrentTaskFragment extends TaskFragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        currentTaskAdapter = new CurrentTaskAdapter(this);
-        recyclerView.setAdapter(currentTaskAdapter);
+        adapter = new CurrentTaskAdapter(this);
+        recyclerView.setAdapter(adapter);
 
         return rootView;
     }

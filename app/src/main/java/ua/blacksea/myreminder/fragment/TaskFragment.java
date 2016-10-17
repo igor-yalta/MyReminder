@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import ua.blacksea.myreminder.MainActivity;
-import ua.blacksea.myreminder.adapter.CurrentTaskAdapter;
+import ua.blacksea.myreminder.adapter.TaskAdapter;
 import ua.blacksea.myreminder.model.ModelTask;
 
 /**
@@ -15,7 +15,7 @@ import ua.blacksea.myreminder.model.ModelTask;
 public abstract class TaskFragment extends Fragment {
     protected RecyclerView recyclerView;
     protected RecyclerView.LayoutManager layoutManager;
-    protected CurrentTaskAdapter currentTaskAdapter;
+    protected TaskAdapter adapter;
 
     public MainActivity activity;
 
@@ -31,20 +31,22 @@ public abstract class TaskFragment extends Fragment {
     public void addTask(ModelTask newTask, boolean saveToDB){
         int pos = -1;
 
-        for(int i = 0; i < currentTaskAdapter.getItemCount(); i++){
-            if(currentTaskAdapter.getItem(i).isTask()){
-                ModelTask task = (ModelTask) currentTaskAdapter.getItem(i);
+        for(int i = 0; i < adapter.getItemCount(); i++){
+            if(adapter.getItem(i).isTask()){
+                ModelTask task = (ModelTask) adapter.getItem(i);
                 if(newTask.getDate() < task.getDate()){
                     pos = i;
                     break;
                 }
             }
         }
+
         if(pos != -1){
-            currentTaskAdapter.addItem(pos, newTask);
+            adapter.addItem(pos, newTask);
         }else {
-            currentTaskAdapter.addItem(newTask);
+            adapter.addItem(newTask);
         }
+
         if(saveToDB){
             activity.dbHelper.saveTask(newTask);
         }

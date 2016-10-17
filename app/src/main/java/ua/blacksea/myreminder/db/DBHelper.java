@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBQueryManager queryManager;
     public DBUpdateManager updateManager;
 
-    public DBHelper(Context context, String name) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         queryManager = new DBQueryManager(getReadableDatabase());
         updateManager = new DBUpdateManager(getWritableDatabase());

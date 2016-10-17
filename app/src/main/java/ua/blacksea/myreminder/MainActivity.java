@@ -19,6 +19,7 @@ import ua.blacksea.myreminder.dialog.AddTaskDialogFragment;
 import ua.blacksea.myreminder.fragment.CurrentTaskFragment;
 import ua.blacksea.myreminder.fragment.DoneTaskFragment;
 import ua.blacksea.myreminder.fragment.SplashFragment;
+import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.ModelTask;
 
 public class MainActivity extends AppCompatActivity implements AddTaskDialogFragment.AddTaskListener {
@@ -27,8 +28,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     PreferenceHelper preferenceHelper;
     TabAdapter tabAdapter;
 
-    CurrentTaskFragment currentTaskFragment;
-    DoneTaskFragment doneTaskFragment;
+    TaskFragment currentTaskFragment;
+    TaskFragment doneTaskFragment;
+
     public DBHelper dbHelper;
 
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        dbHelper = new DBHelper(getApplicationContext(), );
+        dbHelper = new DBHelper(getApplicationContext());
 
         PreferenceHelper.getInstance().init(getApplicationContext());
         preferenceHelper = PreferenceHelper.getInstance();
