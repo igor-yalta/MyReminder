@@ -24,15 +24,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TASK_TABLE_CREATE_SCRIPT = "CREATE TABLE " + TASKS_TABLE + " ("
             + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + TASK_TITLE_COLUMN + "TEXT NOT NULL, " + TASK_DATE_COLUMN + " LONG,"
+            + TASK_TITLE_COLUMN + "TEXT NOT NULL, " + TASK_DATE_COLUMN + " LONG, "
             + TASK_PRIORITY_COLUMN + " INTEGER, " + TASK_STATUS_COLUMN
-            + " INTEGER, " + TASK_TIME_STAMP_COLUMN + " LONG)";
+            + " INTEGER, " + TASK_TIME_STAMP_COLUMN + " LONG);";
 
-    public static final String SELECTION_STATUS = DBHelper.TASK_STATUS_COLUMN + " - ?";
+    public static final String SELECTION_STATUS = DBHelper.TASK_STATUS_COLUMN + " = ?";
     public static final String SELECTION_TIME_STAMP = TASK_TIME_STAMP_COLUMN + " = ?";
 
-    public DBQueryManager queryManager;
-    public DBUpdateManager updateManager;
+    private DBQueryManager queryManager;
+    private DBUpdateManager updateManager;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
