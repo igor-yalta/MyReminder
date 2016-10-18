@@ -18,8 +18,9 @@ import ua.blacksea.myreminder.model.Item;
 public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Item> items;
     TaskFragment taskFragment;
+
     public TaskAdapter(TaskFragment taskFragment){
-        this.taskFragment =taskFragment;
+        this.taskFragment = taskFragment;
         items = new ArrayList<>();
     }
     public Item getItem(int pos){

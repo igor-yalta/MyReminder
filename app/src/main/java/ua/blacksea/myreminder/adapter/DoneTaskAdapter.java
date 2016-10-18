@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.Utils;
@@ -37,26 +36,6 @@ public class DoneTaskAdapter extends TaskAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    }
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
-
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.model_task, viewGroup, false);
-        TextView title = (TextView) v.findViewById(R.id.tvTaskTitle);
-        TextView date = (TextView) v.findViewById(R.id.tvTaskDate);
-        CircleImageView priority = (CircleImageView) v.findViewById(R.id.cvTaskPriority);
-
-        return new TaskViewHolder(v, title, date, priority);
-
-
-    }
-
-
-    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Item item = items.get(position);
 
@@ -82,7 +61,8 @@ public class DoneTaskAdapter extends TaskAdapter {
             taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
-            taskViewHolder.priority.setImageResource(R.drawable.ic_check_circle_white_48dp);
+            taskViewHolder.priority.setImageResource(R.drawable.ic_checkbox_blank_circle_white_48dp);
 
         }
     }
+}

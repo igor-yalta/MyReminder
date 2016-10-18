@@ -25,7 +25,7 @@ public class DBUpdateManager {
     private void priority(long timeStamp, int priority ){
         update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, priority);
     }
-    private void status(long timeStamp, int status){
+    public void status(long timeStamp, int status){
         update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, status);
     }
     private void task(ModelTask task){

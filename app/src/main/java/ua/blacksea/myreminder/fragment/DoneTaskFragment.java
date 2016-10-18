@@ -47,5 +47,10 @@ public class DoneTaskFragment extends TaskFragment {
         }
     }
 
+    @Override
+    public void moveTask(ModelTask task) {
+
+    }
+
 
 }

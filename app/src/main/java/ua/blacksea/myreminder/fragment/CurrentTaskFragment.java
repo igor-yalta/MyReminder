@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,7 @@ import ua.blacksea.myreminder.model.ModelTask;
  */
 public class CurrentTaskFragment extends TaskFragment {
 
-    /*private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private CurrentTaskAdapter currentTaskAdapter;*/
-
-    public CurrentTaskFragment() {
+     public CurrentTaskFragment() {
         // Required empty public constructor
     }
 
@@ -35,8 +30,8 @@ public class CurrentTaskFragment extends TaskFragment {
     public void addTaskFromDB() {
         List<ModelTask> tasks = new ArrayList<>();
         tasks.addAll(activity.dbHelper.query().getTasks(DBHelper.SELECTION_STATUS + " OR "
-                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(ModelTask.STATUS_CURRENT,
-                Integer.toString(ModelTask.STATUS_OVERDUE)), DBHelper.TASK_DATE_COLUMN));
+                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(ModelTask.STATUS_CURRENT),
+                Integer.toString(ModelTask.STATUS_OVERDUE)}, DBHelper.TASK_DATE_COLUMN));
         for(int i= 0; i < tasks.size(); i++){
             addTask(tasks.get(i), false);
         }
@@ -63,24 +58,4 @@ public class CurrentTaskFragment extends TaskFragment {
 
         return rootView;
     }
-
-    /*public void addTask(ModelTask newTask){
-        int pos = -1;
-
-        for(int i = 0; i < currentTaskAdapter.getItemCount(); i++){
-            if(currentTaskAdapter.getItem(i).isTask()){
-                ModelTask task = (ModelTask) currentTaskAdapter.getItem(i);
-                if(newTask.getDate() < task.getDate()){
-                    pos = i;
-                    break;
-                }
-            }
-        }
-        if(pos != -1){
-            currentTaskAdapter.addItem(pos, newTask);
-        }else {
-            currentTaskAdapter.addItem(newTask);
-        }
-    }*/
-
 }
