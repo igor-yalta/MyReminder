@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         dbHelper = new DBHelper(getApplicationContext());
 
         PreferenceHelper.getInstance().init(getApplicationContext());

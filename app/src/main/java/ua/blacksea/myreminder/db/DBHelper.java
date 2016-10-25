@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String SELECTION_STATUS = DBHelper.TASK_STATUS_COLUMN + " = ?";
     public static final String SELECTION_TIME_STAMP = TASK_TIME_STAMP_COLUMN + " = ?";
+    public static final String SELECTION_LIKE_TITLE = TASK_TITLE_COLUMN + " LIKE ?";
 
     private DBQueryManager queryManager;
     private DBUpdateManager updateManager;
@@ -53,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void saveTask(ModelTask task){
         ContentValues newValues = new ContentValues();
+
         newValues.put(TASK_TITLE_COLUMN, task.getTitle());
         newValues.put(TASK_DATE_COLUMN, task.getDate());
         newValues.put(TASK_STATUS_COLUMN, task.getStatus());

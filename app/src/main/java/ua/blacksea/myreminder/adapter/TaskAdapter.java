@@ -10,6 +10,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.Item;
+import ua.blacksea.myreminder.model.ModelTask;
 
 /**
  * Created by Igor on 19.09.2016.
@@ -35,6 +36,18 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void addItem(int pos, Item item){
         items.add(pos, item);
         notifyItemInserted(pos);
+    }
+
+    public void updateTask(ModelTask newTask){
+        for (int i=0;i<getItemCount();i++){
+            if(getItem(i).isTask()){
+                ModelTask task = (ModelTask) getItem(i);
+                if (newTask.getTimeStamp()== task.getTimeStamp()){
+                    removeItem(i);
+                    getTaskFragment().addTask(newTask, false);
+                }
+            }
+        }
     }
 
     public void removeItem(int pos){

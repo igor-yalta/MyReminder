@@ -1,8 +1,10 @@
 package ua.blacksea.myreminder.adapter;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,11 +72,29 @@ public class CurrentTaskAdapter extends TaskAdapter {
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_default_material_light));
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
             taskViewHolder.priority.setImageResource(R.drawable.ic_checkbox_blank_circle_white_48dp);
+
+       /*     itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getTaskFragment().removeTaskDialog(taskViewHolder.getLayoutPosition());
+                        }
+                    }, 1000);
+
+                    return true;
+                }
+            });
+*/
             taskViewHolder.priority.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     task.setStatus(ModelTask.STATUS_DONE);
                     getTaskFragment().activity.dbHelper.update().status(task.getTimeStamp(), ModelTask.STATUS_DONE);
+
                     itemView.setBackgroundColor(resources.getColor(R.color.gray_200));
 
                     taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
@@ -90,7 +110,42 @@ public class CurrentTaskAdapter extends TaskAdapter {
 
                         @Override
                         public void onAnimationEnd(Animator animator) {
+                            if (task.getStatus() == ModelTask.STATUS_DONE){
+                                taskViewHolder.priority.setImageResource(R.drawable.ic_checkbox_blank_circle_white_48dp);
 
+                                ObjectAnimator translationX = ObjectAnimator.ofFloat(itemView, "translationX",
+                                        0f, itemView.getWidth());
+                                ObjectAnimator translationXBack = ObjectAnimator.ofFloat(itemView, "translationX",
+                                        itemView.getWidth(), 0f);
+
+                                translationX.addListener(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animator) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationEnd(Animator animator) {
+                                        itemView.setVisibility(View.GONE);
+                                        getTaskFragment().moveTask(task);
+                                        removeItem(taskViewHolder.getLayoutPosition());
+                                    }
+
+                                    @Override
+                                    public void onAnimationCancel(Animator animator) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animator animator) {
+
+                                    }
+                                });
+
+                                AnimatorSet translationSet = new AnimatorSet();
+                                translationSet.play(translationX).before(translationXBack);
+                                translationSet.start();
+                            }
                         }
 
                         @Override
@@ -104,6 +159,7 @@ public class CurrentTaskAdapter extends TaskAdapter {
                         }
                     });
 
+                    flipIn.start();
                 }
             });
         }

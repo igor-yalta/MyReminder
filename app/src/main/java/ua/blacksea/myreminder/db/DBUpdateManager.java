@@ -16,19 +16,19 @@ public class DBUpdateManager {
         this.db = db;
     }
 
-    private void title(long timeStamp, String title){
-        update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, title);
+    public void title(long timeStamp, String title){
+        update(DBHelper.TASK_TITLE_COLUMN, timeStamp, title);
     }
-    private void date(long timeStamp, long date){
-        update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, date);
+    public void date(long timeStamp, long date){
+        update(DBHelper.TASK_DATE_COLUMN, timeStamp, date);
     }
-    private void priority(long timeStamp, int priority ){
-        update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, priority);
+    public void priority(long timeStamp, int priority ){
+        update(DBHelper.TASK_PRIORITY_COLUMN, timeStamp, priority);
     }
     public void status(long timeStamp, int status){
-        update(DBHelper.TASK_TIME_STAMP_COLUMN, timeStamp, status);
+        update(DBHelper.TASK_STATUS_COLUMN, timeStamp, status);
     }
-    private void task(ModelTask task){
+    public void task(ModelTask task){
         title(task.getTimeStamp(), task.getTitle());
         date(task.getTimeStamp(), task.getDate());
         priority(task.getTimeStamp(), task.getPriority());
@@ -38,12 +38,12 @@ public class DBUpdateManager {
     private void update(String column, long key, String value){
         ContentValues contentValues = new ContentValues();
         contentValues.put(column, value);
-        db.update(DBHelper.TASKS_TABLE, contentValues, DBHelper.TASK_TIME_STAMP_COLUMN + " - " + key, null);
+        db.update(DBHelper.TASKS_TABLE, contentValues, DBHelper.TASK_TIME_STAMP_COLUMN + " = " + key, null);
     }
 
     private void update(String column, long key, long value){
         ContentValues contentValues = new ContentValues();
         contentValues.put(column, value);
-        db.update(DBHelper.TASKS_TABLE, contentValues, DBHelper.TASK_TIME_STAMP_COLUMN + " - " + key, null);
+        db.update(DBHelper.TASKS_TABLE, contentValues, DBHelper.TASK_TIME_STAMP_COLUMN + " = " + key, null);
     }
 }
