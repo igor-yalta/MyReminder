@@ -125,7 +125,7 @@ public abstract class TaskFragment extends Fragment {
             activity.dbHelper.saveTask(newTask);
         }
     }
-    
+    public abstract void findTasks(String title);
     public abstract void addTaskFromDB();
     public abstract void moveTask(ModelTask task);
 

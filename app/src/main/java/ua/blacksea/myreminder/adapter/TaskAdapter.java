@@ -53,7 +53,15 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void removeItem(int pos){
         if(pos >= 0 && pos <= getItemCount()-1){
             items.remove(pos);
-            notifyItemRemoved(pos);}
+            notifyItemRemoved(pos);
+        }
+    }
+
+    public void removeAllItems(){
+        if(getItemCount() != 0){
+            items = new ArrayList<>();
+            notifyDataSetChanged();
+        }
     }
 
     @Override

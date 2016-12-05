@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,14 +23,18 @@ import ua.blacksea.myreminder.fragment.SplashFragment;
 import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.ModelTask;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialogFragment.AddTaskListener {
+public class MainActivity extends AppCompatActivity implements AddTaskDialogFragment.AddTaskListener,
+        DoneTaskFragment.OnTaskRestoreListener, CurrentTaskFragment.OnTaskDoneListener {
 
     FragmentManager fragmentManager;
+
     PreferenceHelper preferenceHelper;
     TabAdapter tabAdapter;
 
     TaskFragment currentTaskFragment;
     TaskFragment doneTaskFragment;
+
+    SearchView searchView;
 
     public DBHelper dbHelper;
 
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_splash) {
             item.setChecked(!item.isChecked());
-            preferenceHelper.putBoolean(preferenceHelper.SPLASH_IS_INVISIBLE, item.isChecked());
+            preferenceHelper.putBoolean(PreferenceHelper.SPLASH_IS_INVISIBLE, item.isChecked());
             return true;
         }
 
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     }
 
     public void runSplash() {
-        if (!preferenceHelper.getBoolean(preferenceHelper.SPLASH_IS_INVISIBLE)) {
+        if (!preferenceHelper.getBoolean(PreferenceHelper.SPLASH_IS_INVISIBLE)) {
             SplashFragment splashFragment = new SplashFragment();
 
             fragmentManager.beginTransaction()
@@ -124,6 +129,22 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         currentTaskFragment = (CurrentTaskFragment) tabAdapter.getItem(TabAdapter.CURRENT_TASK_FRAGMENT_POSITION);
         doneTaskFragment = (DoneTaskFragment) tabAdapter.getItem(TabAdapter.DONE_TASK_FRAGMENT_POSITION);
 
+        searchView = (SearchView) findViewById(R.id.search_view);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                currentTaskFragment.findTasks(newText);
+                doneTaskFragment.findTasks(newText);
+                return false;
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,4 +174,5 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     public void onTaskRestore(ModelTask task) {
         currentTaskFragment.addTask(task, false);
     }
+
 }

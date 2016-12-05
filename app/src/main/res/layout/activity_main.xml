@@ -31,7 +31,17 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways" />
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <android.support.v7.widget.SearchView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/search_view"
+                        android:layout_gravity="right"
+                        app:theme="@style/Theme.AppCompat.NoActionBar"
+                        app:searchIcon="@drawable/ic_search_white_24dp"/>
+
+                </android.support.v7.widget.Toolbar>
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
@@ -46,11 +56,12 @@
             <include layout="@layout/content_main" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right|end"
-                android:layout_margin="@dimen/fab_margin"
+                android:id="@+id/fab"
+                app:layout_anchor="@id/pager"
+                app:layout_anchorGravity="bottom|right|end"
+                android:layout_margin="0dp"
                 android:src="@drawable/ic_add_white_24dp" />
 
         </android.support.design.widget.CoordinatorLayout>
