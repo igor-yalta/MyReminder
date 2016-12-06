@@ -28,7 +28,8 @@ public class CurrentTaskFragment extends TaskFragment {
     public interface OnTaskDoneListener{
         void onTaskDone(ModelTask task);
     }
-     public CurrentTaskFragment() {
+
+    public CurrentTaskFragment() {
         // Required empty public constructor
     }
 

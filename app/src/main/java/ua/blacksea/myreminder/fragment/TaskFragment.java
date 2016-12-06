@@ -19,11 +19,11 @@ import ua.blacksea.myreminder.model.ModelTask;
  */
 
 public abstract class TaskFragment extends Fragment {
+    public MainActivity activity;
+
     protected RecyclerView recyclerView;
     protected RecyclerView.LayoutManager layoutManager;
     protected TaskAdapter adapter;
-
-    public MainActivity activity;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

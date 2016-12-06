@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ua.blacksea.myreminder.R;
+import ua.blacksea.myreminder.adapter.DoneTaskAdapter;
 import ua.blacksea.myreminder.db.DBHelper;
 import ua.blacksea.myreminder.model.ModelTask;
 
@@ -36,9 +37,16 @@ public class DoneTaskFragment extends TaskFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_done_task, container, false);
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvDoneTasks);
+
         layoutManager = new LinearLayoutManager(getActivity());
+
+        adapter = new DoneTaskAdapter(this);
+        recyclerView.setAdapter(adapter);
+
         recyclerView.setLayoutManager(layoutManager);
+
         return rootView;
     }
 
