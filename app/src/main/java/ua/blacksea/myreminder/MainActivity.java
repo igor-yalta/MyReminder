@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     public DBHelper dbHelper;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     @Override
     protected void onResume() {
         super.onResume();
+        MyApp.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApp.activityPaused();
     }
 
     public void runSplash() {
