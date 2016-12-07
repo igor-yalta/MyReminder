@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         dbHelper = new DBHelper(getApplicationContext());
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
 
         setUI();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void runSplash() {
