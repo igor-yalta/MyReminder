@@ -11,6 +11,7 @@ import android.view.View;
 import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.MainActivity;
 import ua.blacksea.myreminder.adapter.TaskAdapter;
+import ua.blacksea.myreminder.alarm.AlarmHelper;
 import ua.blacksea.myreminder.model.Item;
 import ua.blacksea.myreminder.model.ModelTask;
 
@@ -25,12 +26,15 @@ public abstract class TaskFragment extends Fragment {
     protected RecyclerView.LayoutManager layoutManager;
     protected TaskAdapter adapter;
 
+    public AlarmHelper alarmHelper;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getActivity() != null){
             activity = (MainActivity) getActivity();
         }
+        alarmHelper = AlarmHelper.getInstance();
         addTaskFromDB();
     }
 
@@ -74,7 +78,7 @@ public abstract class TaskFragment extends Fragment {
                         @Override
                         public void onViewDetachedFromWindow(View v) {
                             if (isRemoved[0]) {
-                               // alarmHelper.removeAlarm(timeStamp);
+                                alarmHelper.removeAlarm(timeStamp);
                                 activity.dbHelper.removeTask(timeStamp);
 
                             }

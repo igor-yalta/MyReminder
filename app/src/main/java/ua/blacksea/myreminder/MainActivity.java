@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
 
     public DBHelper dbHelper;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
 
         viewPager.setAdapter(tabAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

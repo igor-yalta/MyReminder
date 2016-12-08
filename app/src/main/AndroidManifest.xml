@@ -21,9 +21,9 @@
         <receiver android:name=".alarm.AlarmReceiver"
             android:process=":remote"/>
 
-        <receiver android:name=".alarm.AlarmReceiver">
+        <receiver android:name=".alarm.AlarmSetter">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_BOOt_COMPLETED"/>
+                <action android:name="android.intent.ACTION_BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

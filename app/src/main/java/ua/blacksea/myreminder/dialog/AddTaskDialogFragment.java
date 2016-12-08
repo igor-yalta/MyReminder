@@ -23,6 +23,7 @@ import java.util.Calendar;
 
 import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.Utils;
+import ua.blacksea.myreminder.alarm.AlarmHelper;
 import ua.blacksea.myreminder.model.ModelTask;
 
 /**
@@ -74,8 +75,11 @@ public class AddTaskDialogFragment extends DialogFragment {
 
         final ModelTask modelTask = new ModelTask();
 
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ModelTask.PRIORITY_LEVELS);
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item, ModelTask.PRIORITY_LEVELS);
+
         sPriority.setAdapter(priorityAdapter);
+
         sPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -101,9 +105,6 @@ public class AddTaskDialogFragment extends DialogFragment {
                 DialogFragment datePickerFragment = new DatePickerFragment() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                       /* Calendar dateCalendar = Calendar.getInstance();
-                        dateCalendar.set(i, i1, i2);
-                        edDate.setText(Utils.getDate(dateCalendar.getTimeInMillis()));*/
                         calendar.set(Calendar.YEAR, i);
                         calendar.set(Calendar.MONTH, i1);
                         calendar.set(Calendar.DAY_OF_MONTH, i2);
@@ -118,6 +119,7 @@ public class AddTaskDialogFragment extends DialogFragment {
                 datePickerFragment.show(getFragmentManager(), "DatePickerFragment");
             }
         });
+
         edTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,9 +130,6 @@ public class AddTaskDialogFragment extends DialogFragment {
                 DialogFragment timePickerFragment = new TimePickerFragment() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        /*Calendar timeCalendar = Calendar.getInstance();
-                        timeCalendar.set(0, 0, 0, i, i1);
-                        edTime.setText(Utils.getTime(timeCalendar.getTimeInMillis()));*/
                         calendar.set(Calendar.HOUR_OF_DAY, i);
                         calendar.set(Calendar.MINUTE, i1);
                         calendar.set(Calendar.SECOND, 0);
@@ -149,11 +148,16 @@ public class AddTaskDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 modelTask.setTitle(edTitle.getText().toString());
+                modelTask.setStatus(ModelTask.STATUS_CURRENT);
                 if (edDate.length() != 0 || edTime.length() != 0) {
                     modelTask.setDate(calendar.getTimeInMillis());
+
+                    AlarmHelper alarmHelper = AlarmHelper.getInstance();
+                    alarmHelper.setAlarm(modelTask);
                 }
-                    addTaskListener.onTaskAdded(modelTask);
-                    dialogInterface.dismiss();
+                modelTask.setStatus(modelTask.STATUS_CURRENT);
+                addTaskListener.onTaskAdded(modelTask);
+                dialogInterface.dismiss();
 
             }
         });
