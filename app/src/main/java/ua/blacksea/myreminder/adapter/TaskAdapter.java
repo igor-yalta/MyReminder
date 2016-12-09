@@ -10,6 +10,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.Item;
+import ua.blacksea.myreminder.model.ModelSeparator;
 import ua.blacksea.myreminder.model.ModelTask;
 
 /**
@@ -19,6 +20,11 @@ import ua.blacksea.myreminder.model.ModelTask;
 public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Item> items;
     TaskFragment taskFragment;
+
+    public boolean containSeperatorOverdue;
+    public boolean containSeperatorToday;
+    public boolean containSeperatorTomorrow;
+    public boolean containSeperatorFuture;
 
     public TaskAdapter(TaskFragment taskFragment){
         this.taskFragment = taskFragment;
@@ -54,6 +60,38 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
         if(pos >= 0 && pos <= getItemCount()-1){
             items.remove(pos);
             notifyItemRemoved(pos);
+            if(pos-1 >= 0 && pos <= getItemCount()-1){
+                if(!getItem(pos).isTask() && !getItem(pos-1).isTask()) {
+                    ModelSeparator modelSeparator = (ModelSeparator) getItem(pos - 1);
+                    checkSeparators(modelSeparator.getType());
+                    items.remove(pos - 1);
+                    notifyItemRemoved(pos - 1);
+                }
+            }else if (getItemCount()-1 >= 0 && !getItem(pos-1).isTask()){
+                ModelSeparator modelSeparator = (ModelSeparator) getItem(getItemCount()-1);
+                checkSeparators(modelSeparator.getType());
+
+                int posTemp = getItemCount()-1;
+                items.remove(posTemp);
+                notifyItemRemoved(posTemp);
+            }
+        }
+    }
+
+    public void checkSeparators(int type){
+        switch (type) {
+            case ModelSeparator.TYPE_FUTURE:
+                containSeperatorFuture = false;
+                break;
+            case ModelSeparator.TYPE_TODAY:
+                containSeperatorToday = false;
+                break;
+            case ModelSeparator.TYPE_TOMORROW:
+                containSeperatorTomorrow = false;
+                break;
+            case ModelSeparator.TYPE_OVERDUE:
+                containSeperatorOverdue = false;
+                break;
         }
     }
 
@@ -61,6 +99,10 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
         if(getItemCount() != 0){
             items = new ArrayList<>();
             notifyDataSetChanged();
+            containSeperatorFuture = false;
+            containSeperatorTomorrow = false;
+            containSeperatorToday = false;
+            containSeperatorOverdue = false;
         }
     }
 
@@ -79,6 +121,15 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.title = title;
             this.date = date;
             this.priority = priority;
+        }
+    }
+
+    protected class SeparatorViewHolder extends RecyclerView.ViewHolder{
+
+        protected TextView type;
+        public SeparatorViewHolder(View itemView, TextView type) {
+            super(itemView);
+            this.type = type;
         }
     }
 

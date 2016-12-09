@@ -10,12 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.adapter.CurrentTaskAdapter;
 import ua.blacksea.myreminder.db.DBHelper;
+import ua.blacksea.myreminder.model.ModelSeparator;
 import ua.blacksea.myreminder.model.ModelTask;
+
+import static java.io.File.separator;
 
 
 /**
@@ -31,6 +35,83 @@ public class CurrentTaskFragment extends TaskFragment {
 
     public CurrentTaskFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void addTask(ModelTask newTask, boolean saveToDB) {
+        int position = -1;
+
+        for (int i = 0; i < adapter.getItemCount(); i++) {
+            if (adapter.getItem(i).isTask()) {
+                ModelTask task = (ModelTask) adapter.getItem(i);
+                if (newTask.getDate() < task.getDate()) {
+                    position = i;
+                    break;
+                }
+            }
+        }
+
+
+        if (newTask.getDate() != 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(newTask.getDate());
+
+            if (calendar.get(Calendar.DAY_OF_YEAR) < Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+                newTask.setDateStatus(ModelSeparator.TYPE_OVERDUE);
+                if (!adapter.containSeparatorOverdue) {
+                    adapter.containSeparatorOverdue = true;
+                    separator = new ModelSeparator(ModelSeparator.TYPE_OVERDUE);
+                }
+            } else if (calendar.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+                newTask.setDateStatus(ModelSeparator.TYPE_TODAY);
+                if (!adapter.containSeparatorToday) {
+                    adapter.containSeparatorToday = true;
+                    separator = new ModelSeparator(ModelSeparator.TYPE_TODAY);
+                }
+            } else if (calendar.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1) {
+                newTask.setDateStatus(ModelSeparator.TYPE_TOMORROW);
+                if (!adapter.containSeparatorTomorrow) {
+                    adapter.containSeparatorTomorrow = true;
+                    separator = new ModelSeparator(ModelSeparator.TYPE_TOMORROW);
+                }
+            } else if (calendar.get(Calendar.DAY_OF_YEAR) > Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + 1) {
+                newTask.setDateStatus(ModelSeparator.TYPE_TOMORROW);
+                if (!adapter.containSeparatorFuture) {
+                    adapter.containSeparatorFuture = true;
+                    separator = new ModelSeparator(ModelSeparator.TYPE_FUTURE);
+                }
+            }
+        }
+
+
+        if (position != -1) {
+
+            if (!adapter.getItem(position - 1).isTask()) {
+                if (position - 2 >= 0 && adapter.getItem(position - 2).isTask()) {
+                    ModelTask task = (ModelTask) adapter.getItem(position - 2);
+                    if (task.getDateStatus() == newTask.getDateStatus()) {
+                        position -= 1;
+                    }
+                } else if (position - 2 < 0 && newTask.getDate() == 0) {
+                    position -= 1;
+                }
+            }
+
+            if (separator != null) {
+                adapter.addItem(position - 1, separator);
+            }
+
+            adapter.addItem(position, newTask);
+        } else {
+            if (separator != null) {
+                adapter.addItem(separator);
+            }
+            adapter.addItem(newTask);
+        }
+
+        if (saveToDB) {
+            activity.dbHelper.saveTask(newTask);
+        }
     }
 
     @Override

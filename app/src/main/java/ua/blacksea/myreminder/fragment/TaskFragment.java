@@ -106,29 +106,7 @@ public abstract class TaskFragment extends Fragment {
     }
 
 
-    public void addTask(ModelTask newTask, boolean saveToDB){
-        int pos = -1;
-
-        for(int i = 0; i < adapter.getItemCount(); i++){
-            if(adapter.getItem(i).isTask()){
-                ModelTask task = (ModelTask) adapter.getItem(i);
-                if(newTask.getDate() < task.getDate()){
-                    pos = i;
-                    break;
-                }
-            }
-        }
-
-        if(pos != -1){
-            adapter.addItem(pos, newTask);
-        }else {
-            adapter.addItem(newTask);
-        }
-
-        if(saveToDB){
-            activity.dbHelper.saveTask(newTask);
-        }
-    }
+    public abstract void addTask(ModelTask newTask, boolean saveToDB);
     public abstract void findTasks(String title);
     public abstract void addTaskFromDB();
     public abstract void moveTask(ModelTask task);
