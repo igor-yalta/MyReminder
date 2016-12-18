@@ -21,10 +21,10 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     List<Item> items;
     TaskFragment taskFragment;
 
-    public boolean containSeperatorOverdue;
-    public boolean containSeperatorToday;
-    public boolean containSeperatorTomorrow;
-    public boolean containSeperatorFuture;
+    public boolean containSeparatorOverdue;
+    public boolean containSeparatorToday;
+    public boolean containSeparatorTomorrow;
+    public boolean containSeparatorFuture;
 
     public TaskAdapter(TaskFragment taskFragment){
         this.taskFragment = taskFragment;
@@ -81,16 +81,16 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void checkSeparators(int type){
         switch (type) {
             case ModelSeparator.TYPE_FUTURE:
-                containSeperatorFuture = false;
+                containSeparatorFuture = false;
                 break;
             case ModelSeparator.TYPE_TODAY:
-                containSeperatorToday = false;
+                containSeparatorToday = false;
                 break;
             case ModelSeparator.TYPE_TOMORROW:
-                containSeperatorTomorrow = false;
+                containSeparatorTomorrow = false;
                 break;
             case ModelSeparator.TYPE_OVERDUE:
-                containSeperatorOverdue = false;
+                containSeparatorOverdue = false;
                 break;
         }
     }
@@ -99,10 +99,10 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
         if(getItemCount() != 0){
             items = new ArrayList<>();
             notifyDataSetChanged();
-            containSeperatorFuture = false;
-            containSeperatorTomorrow = false;
-            containSeperatorToday = false;
-            containSeperatorOverdue = false;
+            containSeparatorFuture = false;
+            containSeparatorTomorrow = false;
+            containSeparatorToday = false;
+            containSeparatorOverdue = false;
         }
     }
 
@@ -116,8 +116,8 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
         protected TextView date;
         protected CircleImageView priority;
 
-        public TaskViewHolder(View itemview, TextView title, TextView date, CircleImageView priority){
-            super(itemview);
+        public TaskViewHolder(View itemView, TextView title, TextView date, CircleImageView priority){
+            super(itemView);
             this.title = title;
             this.date = date;
             this.priority = priority;

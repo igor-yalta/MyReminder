@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.os.Handler;
+
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ua.blacksea.myreminder.R;
@@ -35,12 +37,19 @@ public class CurrentTaskAdapter extends TaskAdapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_TASK:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.model_task, parent, false);
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.model_task, parent, false);
                 TextView title = (TextView) view.findViewById(R.id.tvTaskTitle);
                 TextView date = (TextView) view.findViewById(R.id.tvTaskDate);
                 CircleImageView prority = (CircleImageView) view.findViewById(R.id.cvTaskPriority);
 
                 return new TaskViewHolder(view, title, date, prority);
+            case TYPE_SEPARATOR:
+                View separator = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.model_separator, parent, false);
+                TextView type = (TextView) separator.findViewById(R.id.tvSeparatorName);
+
+                return new SeparatorViewHolder(separator, type);
             default:
                 return null;
         }
@@ -67,6 +76,12 @@ public class CurrentTaskAdapter extends TaskAdapter {
 
             itemView.setVisibility(View.VISIBLE);
             taskViewHolder.priority.setEnabled(true);
+
+            if(task.getDate() != 0 && task.getDate() < Calendar.getInstance().getTimeInMillis()){
+                itemView.setBackgroundColor(resources.getColor(R.color.gray_200));
+            }else {
+                itemView.setBackgroundColor(resources.getColor(R.color.gray_50));
+            }
 
             taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_default_material_light));
             taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_default_material_light));

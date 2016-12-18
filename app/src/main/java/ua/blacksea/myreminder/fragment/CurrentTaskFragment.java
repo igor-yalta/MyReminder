@@ -40,6 +40,7 @@ public class CurrentTaskFragment extends TaskFragment {
     @Override
     public void addTask(ModelTask newTask, boolean saveToDB) {
         int position = -1;
+        ModelSeparator separator = null;
 
         for (int i = 0; i < adapter.getItemCount(); i++) {
             if (adapter.getItem(i).isTask()) {
@@ -50,7 +51,6 @@ public class CurrentTaskFragment extends TaskFragment {
                 }
             }
         }
-
 
         if (newTask.getDate() != 0) {
             Calendar calendar = Calendar.getInstance();
