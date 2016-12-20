@@ -17,6 +17,7 @@ import android.widget.Toast;
 import ua.blacksea.myreminder.adapter.TabAdapter;
 import ua.blacksea.myreminder.db.DBHelper;
 import ua.blacksea.myreminder.dialog.AddTaskDialogFragment;
+import ua.blacksea.myreminder.dialog.EditTaskDialogFragment;
 import ua.blacksea.myreminder.fragment.CurrentTaskFragment;
 import ua.blacksea.myreminder.fragment.DoneTaskFragment;
 import ua.blacksea.myreminder.fragment.SplashFragment;
@@ -24,7 +25,8 @@ import ua.blacksea.myreminder.fragment.TaskFragment;
 import ua.blacksea.myreminder.model.ModelTask;
 
 public class MainActivity extends AppCompatActivity implements AddTaskDialogFragment.AddTaskListener,
-        DoneTaskFragment.OnTaskRestoreListener, CurrentTaskFragment.OnTaskDoneListener {
+        DoneTaskFragment.OnTaskRestoreListener, CurrentTaskFragment.OnTaskDoneListener,
+        EditTaskDialogFragment.EditTaskListener{
 
     FragmentManager fragmentManager;
 
@@ -191,4 +193,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogFrag
         currentTaskFragment.addTask(task, false);
     }
 
+    @Override
+    public void onTaskEdit(ModelTask updatedTask) {
+        currentTaskFragment.updateTask(updatedTask);
+        dbHelper.update().task(updatedTask);
+    }
 }

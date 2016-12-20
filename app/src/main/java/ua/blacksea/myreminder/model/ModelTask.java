@@ -39,6 +39,7 @@ public class ModelTask implements Item {
         this.status = status;
         this.timeStamp = timeStamp;
     }
+
     public int getPriorityColor(){
         switch (getPriority()) {
             case PRIORITY_HIGH:

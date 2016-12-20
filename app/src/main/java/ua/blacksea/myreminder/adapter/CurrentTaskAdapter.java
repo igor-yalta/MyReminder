@@ -59,6 +59,7 @@ public class CurrentTaskAdapter extends TaskAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Item item = items.get(position);
 
+
         if (item.isTask()) {
             holder.itemView.setEnabled(true);
             final ModelTask task = (ModelTask) item;
@@ -88,8 +89,16 @@ public class CurrentTaskAdapter extends TaskAdapter {
             taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
             taskViewHolder.priority.setImageResource(R.drawable.ic_checkbox_blank_circle_white_48dp);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
+                public void onClick(View v) {
+                    getTaskFragment().showTaskEditDialog(task);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @
+                        Override
                 public boolean onLongClick(View v) {
 
                     Handler handler = new Handler();

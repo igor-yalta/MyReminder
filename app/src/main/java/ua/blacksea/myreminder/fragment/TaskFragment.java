@@ -1,5 +1,6 @@
 package ua.blacksea.myreminder.fragment;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.MainActivity;
 import ua.blacksea.myreminder.adapter.TaskAdapter;
 import ua.blacksea.myreminder.alarm.AlarmHelper;
+import ua.blacksea.myreminder.dialog.EditTaskDialogFragment;
 import ua.blacksea.myreminder.model.Item;
 import ua.blacksea.myreminder.model.ModelTask;
 
@@ -105,7 +107,10 @@ public abstract class TaskFragment extends Fragment {
         dialogBuilder.show();
     }
 
-
+    public void showTaskEditDialog(ModelTask task){
+        DialogFragment editTaskDialog = EditTaskDialogFragment.newInstance(task);
+        editTaskDialog.show(getActivity().getFragmentManager(), "EditTaskDialogFragment");
+    }
     public abstract void addTask(ModelTask newTask, boolean saveToDB);
     public abstract void findTasks(String title);
     public abstract void addTaskFromDB();
