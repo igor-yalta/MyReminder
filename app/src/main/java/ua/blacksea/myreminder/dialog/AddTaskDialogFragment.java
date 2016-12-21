@@ -75,7 +75,7 @@ public class AddTaskDialogFragment extends DialogFragment {
 
         final ModelTask modelTask = new ModelTask();
 
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, ModelTask.PRIORITY_LEVELS);
 
         sPriority.setAdapter(priorityAdapter);
@@ -168,6 +168,7 @@ public class AddTaskDialogFragment extends DialogFragment {
                 dialogInterface.cancel();
             }
         });
+
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override

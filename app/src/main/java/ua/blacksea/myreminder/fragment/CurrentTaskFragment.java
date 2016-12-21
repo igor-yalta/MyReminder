@@ -1,6 +1,7 @@
 package ua.blacksea.myreminder.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +36,17 @@ public class CurrentTaskFragment extends TaskFragment {
 
     public CurrentTaskFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            onTaskDoneListener = (OnTaskDoneListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnTaskDoneListener");
+        }
     }
 
     @Override

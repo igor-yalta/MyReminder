@@ -1,6 +1,7 @@
 package ua.blacksea.myreminder.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,10 +28,21 @@ public class DoneTaskFragment extends TaskFragment {
         // Required empty public constructor
     }
 
-    OnTaskRestoreListener onTaskResroteListener;
+    OnTaskRestoreListener onTaskRestoreListener;
 
     public interface OnTaskRestoreListener{
         void onTaskRestore(ModelTask task);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            onTaskRestoreListener = (OnTaskRestoreListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnTaskRestoreListener");
+        }
     }
 
     @Override
@@ -103,7 +115,7 @@ public class DoneTaskFragment extends TaskFragment {
         if(task.getDate() != 0){
             alarmHelper.setAlarm(task);
         }
-        onTaskResroteListener.onTaskRestore(task);
+        onTaskRestoreListener.onTaskRestore(task);
     }
 
 }

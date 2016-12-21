@@ -18,6 +18,7 @@ import ua.blacksea.myreminder.R;
 import ua.blacksea.myreminder.Utils;
 import ua.blacksea.myreminder.fragment.CurrentTaskFragment;
 import ua.blacksea.myreminder.model.Item;
+import ua.blacksea.myreminder.model.ModelSeparator;
 import ua.blacksea.myreminder.model.ModelTask;
 
 /**
@@ -58,6 +59,7 @@ public class CurrentTaskAdapter extends TaskAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Item item = items.get(position);
+        final Resources resources = holder.itemView.getResources();
 
 
         if (item.isTask()) {
@@ -66,7 +68,6 @@ public class CurrentTaskAdapter extends TaskAdapter {
             final TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
 
             final View itemView = taskViewHolder.itemView;
-            final Resources resources = itemView.getResources();
 
             taskViewHolder.title.setText(task.getTitle());
             if (task.getDate() != 0) {
@@ -185,6 +186,10 @@ public class CurrentTaskAdapter extends TaskAdapter {
                     flipIn.start();
                 }
             });
+        } else {
+            ModelSeparator separator = (ModelSeparator) item;
+            SeparatorViewHolder separatorViewHolder = (SeparatorViewHolder) holder;
+            separatorViewHolder.type.setText(resources.getString(separator.getType()));
         }
     }
 
