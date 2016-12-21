@@ -23,7 +23,7 @@
 
         <receiver android:name=".alarm.AlarmSetter">
             <intent-filter>
-                <action android:name="android.intent.ACTION_BOOT_COMPLETED"/>
+                <action android:name="android.intent.ACTION.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

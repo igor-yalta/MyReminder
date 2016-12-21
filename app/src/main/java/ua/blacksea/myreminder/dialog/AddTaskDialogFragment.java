@@ -35,16 +35,14 @@ public class AddTaskDialogFragment extends DialogFragment {
     public interface AddTaskListener {
         void onTaskAdded(ModelTask newTask);
         void onTaskAddCancel();
-    //    void onTaskDone(ModelTask task);
-    //    void onTaskRestore(ModelTask task);
-    }
+     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             addTaskListener = (AddTaskListener) activity;
-        } catch (ClassCastException c) {
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implement AddTaskListener");
         }
     }
@@ -73,7 +71,7 @@ public class AddTaskDialogFragment extends DialogFragment {
 
         builder.setView(container);
 
-        final ModelTask modelTask = new ModelTask();
+        final ModelTask task = new ModelTask();
 
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, ModelTask.PRIORITY_LEVELS);
@@ -83,7 +81,7 @@ public class AddTaskDialogFragment extends DialogFragment {
         sPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                modelTask.setPriority(i);
+                task.setPriority(i);
             }
 
             @Override
@@ -147,16 +145,16 @@ public class AddTaskDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                modelTask.setTitle(edTitle.getText().toString());
-                modelTask.setStatus(ModelTask.STATUS_CURRENT);
+                task.setTitle(edTitle.getText().toString());
+                task.setStatus(ModelTask.STATUS_CURRENT);
                 if (edDate.length() != 0 || edTime.length() != 0) {
-                    modelTask.setDate(calendar.getTimeInMillis());
+                    task.setDate(calendar.getTimeInMillis());
 
                     AlarmHelper alarmHelper = AlarmHelper.getInstance();
-                    alarmHelper.setAlarm(modelTask);
+                    alarmHelper.setAlarm(task);
                 }
-                modelTask.setStatus(modelTask.STATUS_CURRENT);
-                addTaskListener.onTaskAdded(modelTask);
+                task.setStatus(task.STATUS_CURRENT);
+                addTaskListener.onTaskAdded(task);
                 dialogInterface.dismiss();
 
             }
